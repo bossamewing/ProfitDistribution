@@ -4,78 +4,73 @@ import streamlit as st
 def format_rupiah(amount):
     return f"Rp {amount:,.0f}".replace(",", ".")
 
-def calculate_financials(income):
-    # Omzet allocation
-    operational = int(income * 0.2)  # 20% untuk operasional (sewa, listrik, dll.)
-    marketing = int(income * 0.1)    # 10% untuk marketing & branding
-    reinvestment = int(income * 0.1) # 10% untuk modal usaha & pengembangan
+def calculate_financials(income, modal):
+    # Profit calculation
+    profit = income - modal
 
-    # Sisa omzet yang dihitung sebagai gross income
-    gross_income = income - (operational + marketing + reinvestment)
+    # Gross profit allocation (70% of profit)
+    gross_profit = int(profit * 0.7)
+    marketing = int(gross_profit * 0.2)
+    production = int(gross_profit * 0.4)
+    worker_share = int(gross_profit * 0.4)
 
-    # Gross distribution
-    marketing_expense = int(gross_income * 0.2)
-    production = int(gross_income * 0.4)
-    worker_share = int(gross_income * 0.4)
-
-    # Worker split
+    # Worker split (33.33% each)
     worker_split = worker_share // 3
     santana_gross = worker_split
     abrar_gross = worker_split
     satria_gross = worker_split
 
-    # Net income
-    net_income = int(gross_income * 0.3)
+    # Net profit allocation (30% of profit)
+    net_profit = int(profit * 0.3)
+    santana_net = int(net_profit * 0.5)
+    bossa_net = int(net_profit * 0.5)
 
-    # Net distribution
-    santana_net = int(net_income * 0.5)
-    bossa_net = int(net_income * 0.5)
-    satria_net = bossa_net // 2
-    abrar_net = bossa_net // 2
+    # Bossa split (25% each to Satria and Abrar)
+    satria_net = int(bossa_net * 0.5)
+    abrar_net = int(bossa_net * 0.5)
 
     return {
-        "operational": operational,
+        "profit": profit,
+        "gross_profit": gross_profit,
         "marketing": marketing,
-        "reinvestment": reinvestment,
-        "gross_income": gross_income,
-        "marketing_expense": marketing_expense,
         "production": production,
         "worker_share": worker_share,
         "santana_gross": santana_gross,
         "abrar_gross": abrar_gross,
         "satria_gross": satria_gross,
-        "net_income": net_income,
+        "net_profit": net_profit,
         "santana_net": santana_net,
         "abrar_net": abrar_net,
         "satria_net": satria_net,
     }
 
 # Streamlit UI
-st.title("Bossanoface Financial Calculator")
+st.title("Bossanoface Profit Calculator")
 
 # User input
 income = st.number_input("Masukkan total omzet:", min_value=0, step=100000, format="%d")
+modal = st.number_input("Masukkan modal:", min_value=0, step=100000, format="%d")
 
 if st.button("Hitung"):
-    result = calculate_financials(income)
+    result = calculate_financials(income, modal)
 
     # Display results
-    st.header("📌 Alokasi Omzet")
-    st.write(f"- Biaya Operasional: {format_rupiah(result['operational'])}")
-    st.write(f"- Marketing & Branding: {format_rupiah(result['marketing'])}")
-    st.write(f"- Investasi Kembali (Pengembangan Bisnis): {format_rupiah(result['reinvestment'])}")
+    st.header("📌 Hasil Perhitungan")
+    st.write(f"Total Omzet: {format_rupiah(income)}")
+    st.write(f"Modal: {format_rupiah(modal)}")
+    st.write(f"Profit: {format_rupiah(result['profit'])}")
 
-    st.header("💰 Pembagian Keuntungan (Gross Income)")
-    st.write(f"Pendapatan Kotor: {format_rupiah(result['gross_income'])}")
-    st.write(f"- Biaya Marketing: {format_rupiah(result['marketing_expense'])}")
+    st.header("💰 Pembagian Keuntungan (Gross Profit - 70%)")
+    st.write(f"Gross Profit: {format_rupiah(result['gross_profit'])}")
+    st.write(f"- Marketing: {format_rupiah(result['marketing'])}")
     st.write(f"- Produksi: {format_rupiah(result['production'])}")
     st.write(f"- Pembagian untuk Pekerja: {format_rupiah(result['worker_share'])}")
     st.write(f"  - Santana: {format_rupiah(result['santana_gross'])}")
     st.write(f"  - Abrar: {format_rupiah(result['abrar_gross'])}")
     st.write(f"  - Satria: {format_rupiah(result['satria_gross'])}")
 
-    st.header("📈 Distribusi Keuntungan Bersih")
-    st.write(f"Keuntungan Bersih: {format_rupiah(result['net_income'])}")
+    st.header("📈 Distribusi Keuntungan Bersih (Net Profit - 30%)")
+    st.write(f"Net Profit: {format_rupiah(result['net_profit'])}")
     st.write(f"- Santana (Founder & Investor): {format_rupiah(result['santana_net'])}")
-    st.write(f"- Abrar (Operasional): {format_rupiah(result['abrar_net'])}")
     st.write(f"- Satria (Branding): {format_rupiah(result['satria_net'])}")
+    st.write(f"- Abrar (Operasional): {format_rupiah(result['abrar_net'])}")
