@@ -55,21 +55,21 @@ if st.button("Hitung"):
     result = calculate_financials(income, modal)
 
     # Display results
-    st.header("📌 Hasil Perhitungan")
+    st.header("Hasil Perhitungan")
     st.write(f"Total Omzet: {format_rupiah(income)}")
     st.write(f"Modal: {format_rupiah(modal)}")
     st.write(f"Profit: {format_rupiah(result['profit'])}")
 
-    st.header("💰 Pembagian Keuntungan (Gross Profit - 70%)")
+    st.header("Gross Profit - 70%")
     st.write(f"Gross Profit: {format_rupiah(result['gross_profit'])}")
     st.write(f"- Marketing: {format_rupiah(result['marketing'])}")
     st.write(f"- Produksi: {format_rupiah(result['production'])}")
     st.write(f"- Pembagian untuk Pekerja: {format_rupiah(result['worker_share'])}")
-    st.write(f"  - Santana: {format_rupiah(result['santana_gross'])}")
-    st.write(f"  - Abrar: {format_rupiah(result['abrar_gross'])}")
-    st.write(f"  - Satria: {format_rupiah(result['satria_gross'])}")
+    st.write(f"  \t- Santana: {format_rupiah(result['santana_gross'])}")
+    st.write(f"  \t- Abrar: {format_rupiah(result['abrar_gross'])}")
+    st.write(f"  \t- Satria: {format_rupiah(result['satria_gross'])}")
 
-    st.header("📈 Distribusi Keuntungan Bersih (Net Profit - 30%)")
+    st.header("Net Profit - 30%")
     st.write(f"Net Profit: {format_rupiah(result['net_profit'])}")
     st.write(f"- Santana (Founder & Investor): {format_rupiah(result['santana_net'])}")
     st.write(f"- Satria (Branding): {format_rupiah(result['satria_net'])}")
