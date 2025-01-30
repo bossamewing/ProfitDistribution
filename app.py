@@ -2,27 +2,27 @@ import streamlit as st
 
 def calculate_profit(income):
     # Calculate gross income
-    gross_income = income * 0.7
+    gross_income = int(income * 0.7)
 
     # Gross distribution
-    marketing = gross_income * 0.2
-    production = gross_income * 0.4
-    worker_share = gross_income * 0.4
+    marketing = int(gross_income * 0.2)
+    production = int(gross_income * 0.4)
+    worker_share = int(gross_income * 0.4)
 
     # Worker split
-    worker_split = worker_share / 3
+    worker_split = int(worker_share / 3)
     santana_share = worker_split
     abrar_share = worker_split
     satria_share = worker_split
 
     # Net income
-    net_income = income * 0.3
+    net_income = int(income * 0.3)
 
     # Net distribution
-    santana_net = net_income * 0.5
-    bossa_net = net_income * 0.5
-    satria_net = bossa_net * 0.5
-    abrar_net = bossa_net * 0.5
+    santana_net = int(net_income * 0.5)
+    bossa_net = int(net_income * 0.5)
+    satria_net = int(bossa_net * 0.5)
+    abrar_net = int(bossa_net * 0.5)
 
     return {
         "gross_income": gross_income,
@@ -39,25 +39,25 @@ def calculate_profit(income):
     }
 
 # Streamlit UI
-st.title("Profit Distribution Calculator")
+st.title("Kalkulator Distribusi Keuntungan")
 
 # User input
-income = st.number_input("Enter total income:", min_value=0.0, step=1000.0)
+income = st.number_input("Masukkan total pendapatan (Rp):", min_value=0, step=1000)
 
-if st.button("Calculate"):
+if st.button("Hitung"):
     result = calculate_profit(income)
 
     # Display results
-    st.header("Results")
-    st.write(f"Gross Income: {result['gross_income']:.2f}")
-    st.write(f"- Marketing: {result['marketing']:.2f}")
-    st.write(f"- Production: {result['production']:.2f}")
-    st.write(f"- Workers: {result['worker_share']:.2f}")
-    st.write(f"  - Santana: {result['santana_gross']:.2f}")
-    st.write(f"  - Abrar: {result['abrar_gross']:.2f}")
-    st.write(f"  - Satria: {result['satria_gross']:.2f}")
+    st.header("Hasil")
+    st.write(f"Pendapatan Kotor: Rp {result['gross_income']:,}")
+    st.write(f"- Marketing: Rp {result['marketing']:,}")
+    st.write(f"- Produksi: Rp {result['production']:,}")
+    st.write(f"- Pekerja: Rp {result['worker_share']:,}")
+    st.write(f"  - Santana: Rp {result['santana_gross']:,}")
+    st.write(f"  - Abrar: Rp {result['abrar_gross']:,}")
+    st.write(f"  - Satria: Rp {result['satria_gross']:,}")
 
-    st.write(f"Net Income: {result['net_income']:.2f}")
-    st.write(f"- Santana: {result['santana_net']:.2f}")
-    st.write(f"- Abrar: {result['abrar_net']:.2f}")
-    st.write(f"- Satria: {result['satria_net']:.2f}")
+    st.write(f"Pendapatan Bersih: Rp {result['net_income']:,}")
+    st.write(f"- Santana: Rp {result['santana_net']:,}")
+    st.write(f"- Abrar: Rp {result['abrar_net']:,}")
+    st.write(f"- Satria: Rp {result['satria_net']:,}")
